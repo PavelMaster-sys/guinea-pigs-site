@@ -332,3 +332,61 @@ footer {
     padding: 10px; /* Увеличиваем область нажатия для мобильных устройств */
   }
 }
+
+/* Стили для секции с фактами */
+.facts-section {
+  padding: 2rem;
+  background-color: #fff5f0;
+  margin: 2rem 0;
+}
+
+.fact-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.fact-text {
+  flex: 1;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.fact-text p {
+  margin-bottom: 1rem;
+}
+
+.fact-text strong {
+  color: #bf360c;
+  font-size: 1.2em;
+}
+
+.fact-image {
+  flex: 1;
+  max-width: 400px;
+}
+
+.fact-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .fact-container {
+    flex-direction: column;
+  }
+
+  .fact-image {
+    order: -1;
+    max-width: 100%;
+  }
+
+  .facts-section {
+    padding: 1rem;
+  }
+}
