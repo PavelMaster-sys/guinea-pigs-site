@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Морские свинки: Полный гид</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="images/paw-icon.svg">
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <img src="images/paw-icon.svg" alt="Лапка" class="paw-icon">
+      <div>
+        <h1>Морские свинки: Полный гид</h1>
+        <p>Классификация, условия содержания, кормление и диета</p>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section>
+      <button class="wiki-button" onclick="window.open('https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%B2%D0%B8%D0%BD%D0%BA%D0%B0', '_blank')">Классификация</button>
+      <p>Морские свинки (Cavia porcellus) относятся к семейству свинковых и подразделяются на множество пород...</p>
+    </section>
+    <section>
+      <h2>Популярные породы</h2>
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="images/cute-guinea-pig-green-grass-garden1.jpg" alt="Американская морская свинка">
+          <a href="#" class="breed-link" data-breed="american">Американская</a>
+        </div>
+        <div class="gallery-item">
+          <img src="images/closeup-shot-guinea-pig-isolated-white-table2.jpg" alt="Перуанская морская свинка">
+          <a href="#" class="breed-link" data-breed="peruvian">Перуанская</a>
+        </div>
+        <div class="gallery-item">
+          <img src="images/guinea-pig-child-s-hands-close-up3.jpg" alt="Шелти">
+          <a href="#" class="breed-link" data-breed="sheltie">Шелти</a>
+        </div>
+        <div class="gallery-item">
+          <img src="images/closeup-shot-guinea-pig-isolated-white-wall4.jpg" alt="Скинни">
+          <a href="#" class="breed-link" data-breed="skinny">Скинни</a>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Условия содержания</h2>
+      <p>Морским свинкам нужен просторный и чистый вольер, температура от 18 до 24°C, отсутствие сквозняков.</p>
+    </section>
+    <section>
+      <h2>Кормление и диета</h2>
+      <p>Основу рациона составляют сено, свежие овощи и качественные гранулы. Обязателен постоянный доступ к воде.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Все о морских свинках</p>
+  </footer>
+
+  <div class="ai-panel">
+    <div class="ai-panel-content">
+      <h3>AI Помощник</h3>
+      <p>Здесь вы можете получить помощь по содержанию морских свинок. Спросите меня о питании, содержании, здоровье или поведении морских свинок!</p>
+      <div class="ai-input-container">
+        <textarea id="ai-input" placeholder="Введите ваш вопрос... Например: Что едят морские свинки?"></textarea>
+        <button id="ai-search-btn" class="ai-search-button">Спросить</button>
+      </div>
+      <div id="ai-messages"></div>
+    </div>
+  </div>
+  
+  <button class="toggle-ai-button" onclick="toggleAIPanel()">AI Помощник</button>
+
+  <script src="ai-helper.js"></script>
+  <script>
+    const panel = document.querySelector('.ai-panel');
+    const toggleButton = document.querySelector('.toggle-ai-button');
+    const searchButton = document.getElementById('ai-search-btn');
+    const aiInput = document.getElementById('ai-input');
+    const aiMessages = document.getElementById('ai-messages');
+    const aiHelper = new AIHelper();
+
+    // Описания пород
+    const breedDescriptions = {
+      american: {
+        title: "Американская морская свинка",
+        description: "Американская морская свинка - одна из самых популярных пород. Характеризуется короткой, гладкой шерстью и округлым телом. Имеет спокойный характер и хорошо подходит для начинающих владельцев. Требует минимального ухода за шерстью."
+      },
+      peruvian: {
+        title: "Перуанская морская свинка",
+        description: "Перуанская морская свинка известна своей длинной, шелковистой шерстью, которая может достигать 50 см в длину. Требует регулярного ухода и расчесывания. Имеет спокойный характер и нуждается в особом внимании к гигиене."
+      },
+      sheltie: {
+        title: "Шелти",
+        description: "Шелти - порода с длинной шерстью, растущей от головы к хвосту. Отличается дружелюбным характером и высокой активностью. Требует регулярного ухода за шерстью и внимания со стороны хозяина."
+      },
+      skinny: {
+        title: "Скинни",
+        description: "Скинни - уникальная порода, практически лишенная шерсти. Имеет нежную кожу, которая требует особого ухода и защиты от холода. Характеризуется дружелюбным характером и высокой потребностью в тепле."
+      }
+    };
+
+    function toggleAIPanel() {
+      panel.classList.toggle('active');
+      toggleButton.classList.toggle('hidden');
+      
+      // Очищаем содержимое AI помощника при закрытии
+      if (!panel.classList.contains('active')) {
+        aiMessages.innerHTML = '';
+        aiInput.value = '';
+      }
+    }
+
+    // Создаем элемент для описания породы
+    const breedDescription = document.createElement('div');
+    breedDescription.className = 'breed-description';
+    document.body.appendChild(breedDescription);
+
+    // Обработчик кликов по ссылкам пород
+    document.querySelectorAll('.breed-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const breed = e.target.dataset.breed;
+        const description = breedDescriptions[breed];
+        
+        breedDescription.innerHTML = `
+          <button class="close-description">&times;</button>
+          <h3>${description.title}</h3>
+          <p>${description.description}</p>
+        `;
+        
+        breedDescription.classList.add('active');
+        
+        // Обработчик закрытия описания
+        breedDescription.querySelector('.close-description').addEventListener('click', () => {
+          breedDescription.classList.remove('active');
+        });
+      });
+    });
+
+    // Закрытие описания при клике вне его
+    document.addEventListener('click', (e) => {
+      if (!breedDescription.contains(e.target) && !e.target.classList.contains('breed-link')) {
+        breedDescription.classList.remove('active');
+      }
+      
+      // Закрытие AI панели при клике вне её
+      if (!panel.contains(e.target) && 
+          !toggleButton.contains(e.target) && 
+          panel.classList.contains('active') &&
+          !e.target.closest('.ai-panel') && 
+          !e.target.closest('.toggle-ai-button')) {
+        toggleAIPanel();
+      }
+    });
+
+    function formatResponse(text) {
+      return text.split('\n').map(line => {
+        if (line.startsWith('•')) {
+          return `<li>${line.substring(2)}</li>`;
+        } else if (line.startsWith('По теме')) {
+          return `<h4>${line}</h4><ul>`;
+        } else if (line === '') {
+          return '</ul>';
+        }
+        return line;
+      }).join('\n');
+    }
+
+    // Обработка поиска
+    async function handleSearch() {
+      const question = aiInput.value.trim();
+      if (question) {
+        // Добавляем вопрос пользователя
+        const userQuestion = document.createElement('div');
+        userQuestion.className = 'ai-message user-message';
+        userQuestion.textContent = question;
+        aiMessages.appendChild(userQuestion);
+
+        // Добавляем индикатор загрузки
+        const loadingMessage = document.createElement('div');
+        loadingMessage.className = 'ai-message ai-response loading';
+        loadingMessage.textContent = 'Думаю...';
+        aiMessages.appendChild(loadingMessage);
+
+        try {
+          // Получаем ответ от AI
+          const response = await aiHelper.processQuestion(question);
+          
+          // Заменяем индикатор загрузки на ответ
+          loadingMessage.innerHTML = formatResponse(response);
+          loadingMessage.classList.remove('loading');
+        } catch (error) {
+          loadingMessage.textContent = 'Извините, произошла ошибка. Попробуйте еще раз.';
+          loadingMessage.classList.remove('loading');
+        }
+
+        // Очищаем поле ввода
+        aiInput.value = '';
+        
+        // Прокручиваем к последнему сообщению
+        aiMessages.scrollTop = aiMessages.scrollHeight;
+      }
+    }
+
+    searchButton.addEventListener('click', handleSearch);
+
+    // Обработка Enter в текстовом поле
+    aiInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+  </script>
+</body>
+
+</html>
